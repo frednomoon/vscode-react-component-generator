@@ -142,6 +142,7 @@
     }
   },
   "scripts": {
+    "local": "tsc -p /$HOME/.vscode/extensions/folderboi/",
     "vscode:prepublish": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "postinstall": "node ./node_modules/vscode/bin/install"

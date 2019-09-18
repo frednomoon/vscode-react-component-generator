@@ -22,7 +22,7 @@ export class FileHelper {
 
   public static createComponentDir(uri: any, componentName: string): string {
     let contextMenuSourcePath
-    const globalConfig: GlobalInterface = getConfig().get("global")
+    // const globalConfig: GlobalInterface = getConfig().get("global")
 
     if (uri && fs.lstatSync(uri.fsPath).isDirectory()) {
       contextMenuSourcePath = uri.fsPath
@@ -32,11 +32,13 @@ export class FileHelper {
       contextMenuSourcePath = workspace.rootPath
     }
 
-    let componentDir = `${contextMenuSourcePath}`
-    if (globalConfig.generateFolder) {
-      componentDir = `${contextMenuSourcePath}/${this.setName(componentName)}`
-      fse.mkdirsSync(componentDir)
-    }
+    // let componentDir = `${contextMenuSourcePath}`
+    // if (globalConfig.generateFolder) {
+    const componentDir = `${contextMenuSourcePath}/${this.setName(
+      componentName
+    )}`
+    fse.mkdirsSync(componentDir)
+    // }
 
     return componentDir
   }
@@ -44,55 +46,34 @@ export class FileHelper {
   public static createComponent(
     componentDir: string,
     componentName: string,
-    suffix: string = "-container"
+    suffix: string = "-withStyles"
   ): Observable<string> {
-    const globalConfig: GlobalInterface = getConfig().get("global")
-    const componentConfig: ComponentInterface = getConfig().get("mainFile")
     let templateFileName =
       this.assetRootDir + `/templates/component${suffix}.template`
-    if (componentConfig.template) {
-      templateFileName = this.resolveWorkspaceRoot(componentConfig.template)
-    }
 
     const compName = this.setName(componentName)
-    const removeLifecycleType =
-      globalConfig.lifecycleType == "legacy" ? "reactv16" : "legacy"
-    console.log("removeLifecycleType", removeLifecycleType)
 
     let componentContent = fs
       .readFileSync(templateFileName)
       .toString()
       .replace(/{componentName}/g, compName)
-      .replace(/{quotes}/g, this.getQuotes(globalConfig))
+      .replace(/{quotes}/g, this.getQuotes())
 
-    // console.log('content', componentContent);
+    let filename = `${componentDir}/${compName}.js`
 
-    componentContent = removeBetweenTags(
-      globalConfig.lifecycleType,
-      removeLifecycleType,
-      componentContent
-    )
-
-    let filename = `${componentDir}/${compName}.${componentConfig.extension}`
-
-    if (componentConfig.create) {
-      return this.createFile(filename, componentContent).map(result => filename)
-    } else {
-      return Observable.of("")
-    }
+    // if (componentConfig.create) {
+    return this.createFile(filename, componentContent).map(result => filename)
+    // } else {
+    // return Observable.of("")
+    // }
   }
 
   public static createStory(
     componentDir: string,
     componentName: string
   ): Observable<string> {
-    const globalConfig: GlobalInterface = getConfig().get("global")
-    const componentConfig: ComponentInterface = getConfig().get("mainFile")
-    let templateFileName =
+    const templateFileName =
       this.assetRootDir + `/templates/component.storybook.template`
-    if (componentConfig.template) {
-      templateFileName = this.resolveWorkspaceRoot(componentConfig.template)
-    }
 
     const compName = this.setName(componentName)
 
@@ -100,49 +81,50 @@ export class FileHelper {
       .readFileSync(templateFileName)
       .toString()
       .replace(/{componentName}/g, compName)
-      .replace(/{quotes}/g, this.getQuotes(globalConfig))
+      .replace(/{quotes}/g, this.getQuotes())
 
-    let filename = `${componentDir}/${compName}.${componentConfig.extension}`
+    let filename = `${componentDir}/${compName}.stories.js`
 
-    if (componentConfig.create) {
-      return this.createFile(filename, componentContent).map(result => filename)
-    } else {
-      return Observable.of("")
-    }
+    // if (componentConfig.create) {
+    return this.createFile(filename, componentContent).map(result => filename)
+    // } else {
+    //   return Observable.of("")
+    // }
   }
 
   public static createIndexFile(
     componentDir: string,
     componentName: string
   ): Observable<string> {
-    const globalConfig: GlobalInterface = getConfig().get("global")
-    const indexConfig: IndexInterface = getConfig().get("indexFile")
+    // const globalConfig: GlobalInterface = getConfig().get("global")
+    // const indexConfig: IndexInterface = getConfig().get("indexFile")
 
     let templateFileName = this.assetRootDir + "/templates/index.template"
-    if (indexConfig.template) {
-      templateFileName = this.resolveWorkspaceRoot(indexConfig.template)
-    }
+    // if (indexConfig.template) {
+    // templateFileName = this.resolveWorkspaceRoot(indexConfig.template)
+    // }
 
     const compName = this.setName(componentName)
     let indexContent = fs
       .readFileSync(templateFileName)
       .toString()
       .replace(/{componentName}/g, compName)
-      .replace(/{quotes}/g, this.getQuotes(globalConfig))
+      .replace(/{quotes}/g, this.getQuotes())
 
-    let filename = `${componentDir}/index.${indexConfig.extension}`
-    if (indexConfig.create) {
-      return this.createFile(filename, indexContent).map(result => filename)
-    } else {
-      return Observable.of("")
-    }
+    let filename = `${componentDir}/index.js`
+    // if (indexConfig.create) {
+    return this.createFile(filename, indexContent).map(result => filename)
+    // } else {
+    // return Observable.of("")
+    // }
   }
 
   public static resolveWorkspaceRoot = (path: string): string =>
     path.replace("${workspaceFolder}", workspace.rootPath)
 
-  private static getQuotes = (config: GlobalInterface) =>
-    config.quotes === "double" ? '"' : "'"
+  private static getQuotes = () => "'"
+  // private static getQuotes = (config: GlobalInterface) =>
+  //   config.quotes === "double" ? '"' : "'"
 
   public static setName = (name: string) => pascalCase(name)
 }
@@ -162,9 +144,10 @@ export function logger(
   }
 }
 
-export default function getConfig(uri?: Uri) {
-  return workspace.getConfiguration("ACReactComponentGenerator", uri) as any
-}
+// export default function getConfig(uri?: Uri) {
+//   return {}
+//   // return workspace.getConfiguration("FNMComponentGen", uri) as any
+// }
 
 export function removeBetweenTags(remainTag, removedtag, content) {
   const escapeRegExp = s => s.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&")
