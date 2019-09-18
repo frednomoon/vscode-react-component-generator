@@ -1,0 +1,14 @@
+import React from {quotes}react{quotes}
+import styled from {quotes}styled-components{quotes}
+
+const Container = styled.div`
+
+`
+
+const {componentName} = props => (
+  <Container>
+    
+  </Container>
+)
+
+export default {componentName}

@@ -10,8 +10,8 @@
   },
   "homepage": "https://github.com/abdullahceylan/vscode-react-component-generator",
   "galleryBanner": {
-      "color": "#0273D4",
-      "theme": "dark"
+    "color": "#0273D4",
+    "theme": "dark"
   },
   "repository": {
     "type": "git",
@@ -41,9 +41,7 @@
   ],
   "activationEvents": [
     "onCommand:extension.genReactContainerComponentFiles",
-    "onCommand:extension.genReactStatelessComponentFiles",
-    "onCommand:extension.genReactReduxContainerComponentFiles",
-    "onCommand:extension.genReactReduxStatelessComponentFiles"
+    "onCommand:extension.genReactReduxContainerComponentFiles"
   ],
   "main": "./out/src/extension",
   "icon": "assets/images/icon.png",
@@ -103,7 +101,6 @@
           "default": "styled-components (.js)",
           "description": "The type of stylesheet file to create"
         },
-
         "ACReactComponentGenerator.styleFile.suffix": {
           "type": "string",
           "default": ".styles",
@@ -124,19 +121,11 @@
     "commands": [
       {
         "command": "extension.genReactContainerComponentFiles",
-        "title": "New React Container Component"
-      },
-      {
-        "command": "extension.genReactStatelessComponentFiles",
-        "title": "New React Stateless Component"
+        "title": "New React Component"
       },
       {
         "command": "extension.genReactReduxContainerComponentFiles",
         "title": "New React Container Component with Redux"
-      },
-      {
-        "command": "extension.genReactReduxStatelessComponentFiles",
-        "title": "New React Stateless Component with Redux"
       }
     ],
     "menus": {
@@ -146,15 +135,7 @@
           "group": "navigation"
         },
         {
-          "command": "extension.genReactStatelessComponentFiles",
-          "group": "navigation"
-        },
-        {
           "command": "extension.genReactReduxContainerComponentFiles",
-          "group": "navigation"
-        },
-        {
-          "command": "extension.genReactReduxStatelessComponentFiles",
           "group": "navigation"
         }
       ]
@@ -172,7 +153,6 @@
     "eslint": "^4.11.0",
     "@types/node": "^8.10.25",
     "@types/mocha": "^2.2.42"
-
   },
   "dependencies": {
     "change-case": "^3.0.2",

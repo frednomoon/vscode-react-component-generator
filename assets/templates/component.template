@@ -1,0 +1,9 @@
+import React from {quotes}react{quotes}
+
+const {componentName} = (props) => (
+  <div>
+    
+  </div>
+)
+
+export default {componentName}

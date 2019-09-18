@@ -1,0 +1,10 @@
+import React from {quotes}react{quotes};
+import { action } from {quotes}@storybook/addon-actions{quotes};
+import {componentName} from {quotes}./{componentName}{quotes};
+
+export default {
+  component: {componentName},
+  title: {quotes}{componentName}{quotes},
+};
+
+export const noProps = () => <{componentName}></{componentName}>;
